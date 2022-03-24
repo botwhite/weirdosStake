@@ -15,6 +15,7 @@ var currentAddr = null;
 var balanceNFT
 var IsAproba;
 var stake;
+var TokenUser = 0;
 var misNftsID = [];
 var iddeltango;
 var balanceStake;
@@ -117,8 +118,9 @@ async function loadAccount() {
   accounts = await web3.eth.getAccounts()
   balance = await contract.methods.balanceOf(accounts[0]).call()
   balanceStake = await stake.methods.misnft(accounts[0]).call()
-  console.log(balanceStake)
-  //console.log(balanceStake)
+  totalstaked = await stake.methods.getStakeNftBalance().call()
+ 
+  
   //balanceNFT = await contract.methods.tokensOfOwner(accounts[0]).call()
   for(var i = 0; i < balance; i++){
     misNftsID[i] = await contract.methods.tokenOfOwnerByIndex(accounts[0], i).call();
@@ -180,12 +182,13 @@ async function loadAccount() {
 
         // función que se ejecutará al recibir una respuesta
         var nftsMis = response.data.image
-       // var nftrango = response.data.attributes[13].value
-        //TotalMinado = await stake.methods.getCurrentStakeEarned(balanceStake[e]).call()
-        
+   
         stake.methods.getCurrentStakeEarned(balanceStake[e]).call().then(userBalance => {
            TotalMinado = web3.utils.fromWei(userBalance);
-
+           TokenUser  = parseFloat(TokenUser) + parseFloat(TotalMinado) ;
+            document.getElementById("Your_Reward").textContent = TokenUser;
+          
+           console.log(TokenUser)
            const nftdiv = document.getElementById("carousel-img2")
            const insertarnft = document.createElement("div")
            insertarnft.classList.add("column")
@@ -207,19 +210,6 @@ async function loadAccount() {
         
        `
 
-       /*
-       
-          <a class="card-image is-loaded"  style="background-image: url(${nftsMis})" data-image-full="${nftsMis}">
-           <img src="${nftsMis}" alt="CMG" />
-           </a>                       
-           <div class="card-description">
-               <h2>Rango ${nftrango}</h2>
-           ID NFT ${balanceStake[e]}
-           <p>Total Mined ${TotalMinado}</p>
-
-               <p><button onclick="UnStake(${balanceStake[e]})" class="boton azul">UnStake</button></p>
-           </div>
-           */ 
            nftdiv.appendChild(insertarnft)
          })
          .catch(function (error) {
@@ -254,11 +244,10 @@ async function loadAccount() {
   });
 
 
-  //mynft = await contract.methods.setBaseURI(accounts[0]).call()
-  /*
-    document.getElementById("web3_message").textContent = "Connected"
-    document.getElementById("connect_button").style.display = "none"
-    document.getElementById("nft_balance").textContent = "You have " + balance + " Miners"*/
+
+    document.getElementById("Your_Weirdos").textContent = balance;
+    document.getElementById("Staked").textContent = balanceStake.length;
+    document.getElementById("Total_Stake").textContent = totalstaked;
 }
 
 
@@ -314,6 +303,7 @@ const NftApro = async () => {
 const StakeALL = async () => {
   console.log(misNftsID)
   stake.methods.stakeNFT(misNftsID, misNftsID).send({ from: accounts[0] }).then(result => {
+loadDapp()
 
   }).catch((err) => {
     console.log(err)
@@ -327,6 +317,7 @@ const Stake = async (_idnfts, _rango) => {
 
 
   stake.methods.stakeNFT([_idnfts],[ _rango]).send({ from: accounts[0] }).then(result => {
+    loadDapp()
 
   }).catch((err) => {
     console.log(err)
@@ -339,7 +330,8 @@ const Stake = async (_idnfts, _rango) => {
 //Unstaker all
 const UnStakeALL = async () => {
   console.log(balanceStake)
-  stake.methods.unStakeNFT(misNftsID).send({ from: accounts[0] }).then(result => {
+  stake.methods.unStakeNFT(balanceStake).send({ from: accounts[0] }).then(result => {
+    loadDapp()
 
   }).catch((err) => {
     console.log(err)
@@ -354,6 +346,7 @@ const UnStake = async (_idnfts) => {
 
 
   stake.methods.unStakeNFT([_idnfts]).send({ from: accounts[0] }).then(result => {
+    loadDapp()
 
   }).catch((err) => {
     console.log(err)
