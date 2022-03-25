@@ -1,9 +1,26 @@
+@font-face {
+  font-family: galano;
+  src: url("./galano/GalanoGrotesque-Light.woff2") format("woff2"), url("./galano/GalanoGrotesque-Light.woff") format("woff");
+  font-weight: 300;
+}
+body{
+  font-family: galano;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
 .menu{
     background-image: url("../img/wEIRD.png");
-   
     color: #fff;
     height: 30rem;
     
+}
+
+img,
+video {
+  height: auto;
+  max-width: 100%;
 }
 .img{
     position: absolute;
@@ -14,7 +31,6 @@
 .carousel-img{
     padding-left: 1rem;
 }
-
 
 
 .slider {
@@ -94,7 +110,6 @@
       opacity: 0;
       pointer-events: none;
   }
-  
 
 
   /* Lazy Load Styles */
@@ -115,16 +130,9 @@
 .card-image.is-loaded {
 	filter: none; /* remove the blur on fullres image */
 	transition: filter 1s;
-}
-
-
-
-
-
+} 
 
 .card {
-	
-	
 	max-width: 20rem;
 	margin: 1rem;
 	font-size: 1rem;
@@ -153,8 +161,6 @@
 .card-description > p {
 	margin: 0;
 }
-
-
 
 .boton{
   text-shadow: 0px 1px rgba(0, 0, 0, 0.2);
@@ -189,4 +195,27 @@ color: #ffffff;
 
 .azul:active{
 box-shadow: 0px 2px 0px 0px #111111;
+}
+ 
+.navbar-end{
+  display: flex;
+  justify-content: flex-end;
+  margin: 1em ; 
+}
+
+.button:hover{
+  background: #615959;
+  color: #ffffff;
+}
+#navbarBasicExample {
+  color: #fff
+}
+
+.navbar-item{
+  margin: 0 2.5em;
+  padding: 0 2em;  
+}
+.container{
+  margin: 0 auto;
+  max-width: 100%;
 }

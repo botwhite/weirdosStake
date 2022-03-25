@@ -28,6 +28,7 @@ function lazyLoad() {
 	
 	// loop over each card image
 	card_images.forEach(function(card_image) {
+		console.log(card_image);
 		var image_url = card_image.getAttribute('data-image-full');
 		var content_image = card_image.querySelector('img');
 		
